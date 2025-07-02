@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.projetjavafinal.controller.LoginController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Système de Location de Voitures" style="-fx-font-size: 20px;"/>
+
+    <VBox spacing="5">
+        <Label text="Login"/>
+        <TextField fx:id="loginField" promptText="Entrez votre login"/>
+    </VBox>
+
+    <VBox spacing="5">
+        <Label text="Mot de passe"/>
+        <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe"/>
+    </VBox>
+
+    <Button text="Se connecter" onAction="#handleLogin"
+            style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+</VBox>

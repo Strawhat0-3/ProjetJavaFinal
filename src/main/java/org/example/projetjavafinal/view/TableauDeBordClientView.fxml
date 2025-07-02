@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.projetjavafinal.controller.DashboardClientController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <Label fx:id="nomClientLabel" style="-fx-font-size: 24px;"/>
+        <Label fx:id="pointsFideliteLabel" style="-fx-font-size: 16px;"/>
+    </HBox>
+
+    <TabPane>
+        <Tab text="Rechercher un véhicule" closable="false">
+            <VBox spacing="10">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Catégorie :"/>
+                    <ComboBox fx:id="filtreCategorie" promptText="Toutes catégories"/>
+                    
+                    <Label text="Du :"/>
+                    <DatePicker fx:id="dateDebutRecherche"/>
+                    
+                    <Label text="Au :"/>
+                    <DatePicker fx:id="dateFinRecherche"/>
+                </HBox>
+
+                <TableView fx:id="vehiculesDisponiblesTable" VBox.vgrow="ALWAYS">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+
+                <Button text="Réserver le véhicule sélectionné" 
+                        onAction="#handleNouvelleReservation"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            </VBox>
+        </Tab>
+
+        <Tab text="Mes réservations" closable="false">
+            <TableView fx:id="reservationsTable" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+        </Tab>
+    </TabPane>
+</VBox>

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Configuration de la base de données -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/location_voitures?createDatabaseIfNotExist=true&amp;useSSL=false&amp;serverTimezone=UTC</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">votre_mot_de_passe</property>
+
+        <!-- Configuration Hibernate -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Mapping des entités -->
+        <mapping class="org.example.projetjavafinal.model.Utilisateur"/>
+        <mapping class="org.example.projetjavafinal.model.Client"/>
+        <mapping class="org.example.projetjavafinal.model.Vehicule"/>
+        <mapping class="org.example.projetjavafinal.model.Chauffeur"/>
+        <mapping class="org.example.projetjavafinal.model.Reservation"/>
+        <mapping class="org.example.projetjavafinal.model.Facture"/>
+        <mapping class="org.example.projetjavafinal.model.ServiceSupplementaire"/>
+    </session-factory>
+</hibernate-configuration>

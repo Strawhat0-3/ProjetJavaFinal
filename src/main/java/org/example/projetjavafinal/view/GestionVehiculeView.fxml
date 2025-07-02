@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.projetjavafinal.controller.GestionVehiculesController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="10">
+        <VBox spacing="5" HBox.hgrow="ALWAYS">
+            <Label text="Marque"/>
+            <TextField fx:id="marqueField"/>
+
+            <Label text="Modèle"/>
+            <TextField fx:id="modeleField"/>
+
+            <Label text="Tarif journalier"/>
+            <TextField fx:id="tarifField"/>
+
+            <Label text="Immatriculation"/>
+            <TextField fx:id="immatriculationField"/>
+
+            <Label text="Catégorie"/>
+            <ComboBox fx:id="categorieCombo"/>
+
+            <Button text="Ajouter" onAction="#handleAjouterVehicule"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+        </VBox>
+
+        <TableView fx:id="vehiculeTable" HBox.hgrow="ALWAYS">
+            <columns>
+                <TableColumn text="Marque" fx:id="marqueColumn"/>
+                <TableColumn text="Modèle" fx:id="modeleColumn"/>
+                <TableColumn text="Tarif" fx:id="tarifColumn"/>
+                <TableColumn text="Immatriculation" fx:id="immatriculationColumn"/>
+                <TableColumn text="Catégorie" fx:id="categorieColumn"/>
+                <TableColumn text="Disponible" fx:id="disponibleColumn"/>
+            </columns>
+        </TableView>
+    </HBox>
+</VBox>

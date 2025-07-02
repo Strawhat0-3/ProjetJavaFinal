@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.projetjavafinal.controller.GestionReservationsController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="10">
+        <VBox spacing="5" minWidth="300">
+            <Label text="Nouvelle Réservation" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+            <Label text="Client"/>
+            <ComboBox fx:id="clientCombo" maxWidth="Infinity"/>
+
+            <Label text="Véhicule"/>
+            <ComboBox fx:id="vehiculeCombo" maxWidth="Infinity"/>
+
+            <Label text="Chauffeur (optionnel)"/>
+            <ComboBox fx:id="chauffeurCombo" maxWidth="Infinity"/>
+
+            <Label text="Date de début"/>
+            <HBox spacing="5">
+                <DatePicker fx:id="dateDebutPicker" HBox.hgrow="ALWAYS"/>
+                <Spinner fx:id="heureDebutSpinner" prefWidth="70"/>
+            </HBox>
+
+            <Label text="Date de fin"/>
+            <HBox spacing="5">
+                <DatePicker fx:id="dateFinPicker" HBox.hgrow="ALWAYS"/>
+                <Spinner fx:id="heureFinSpinner" prefWidth="70"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Créer" onAction="#handleCreerReservation"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            </HBox>
+        </VBox>
+
+        <VBox spacing="5" HBox.hgrow="ALWAYS">
+            <Label text="Réservations actives" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+            <TableView fx:id="reservationTable" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+
+            <Button text="Annuler la réservation sélectionnée" onAction="#handleAnnulerReservation"
+                    style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+        </VBox>
+    </HBox>
+</VBox>
