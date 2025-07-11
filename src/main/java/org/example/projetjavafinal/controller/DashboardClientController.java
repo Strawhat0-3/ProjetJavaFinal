@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.scene.layout.VBox;
+import org.example.projetjavafinal.dao.VehiculeDAO;
 import org.example.projetjavafinal.model.*;
 import org.example.projetjavafinal.service.*;
 import java.time.LocalDateTime;
@@ -38,7 +39,7 @@ public class DashboardClientController {
     
     public DashboardClientController() {
         this.clientService = new ClientService();
-        this.vehiculeService = new VehiculeService();
+        this.vehiculeService = new VehiculeService(new VehiculeDAO());
         this.reservationService = new ReservationService();
     }
     
@@ -127,7 +128,7 @@ public class DashboardClientController {
         List<Reservation> reservations = reservationService.trouverReservationsClient(clientConnecte);
         reservationsTable.setItems(FXCollections.observableArrayList(reservations));
     }
-    
+
     @FXML
     private void rechercherVehicules() {
         List<Vehicule> vehicules;

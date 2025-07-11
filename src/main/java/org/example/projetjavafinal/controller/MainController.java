@@ -16,11 +16,25 @@ public class MainController extends Application {
     
     public void afficherLogin() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavafinal/vue/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavafinal/LoginView.fxml"));
             Scene scene = new Scene(loader.load(), 400, 300);
             primaryStage.setTitle("Location de Voitures - Connexion");
             primaryStage.setScene(scene);
             primaryStage.show();
+            
+            LoginController loginController = loader.getController();
+            loginController.setMainController(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void afficherGestionVehicules() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gestionVehicules.fxml"));
+            Scene scene = new Scene(loader.load());
+            primaryStage.setTitle("Gestion des Véhicules");
+            primaryStage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
         }

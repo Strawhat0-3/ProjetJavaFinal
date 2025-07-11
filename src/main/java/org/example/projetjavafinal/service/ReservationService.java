@@ -1,98 +1,63 @@
 package org.example.projetjavafinal.service;
 
+import org.example.projetjavafinal.Observable;
+import org.example.projetjavafinal.Observer;
+import org.example.projetjavafinal.dao.DAOFactory;
 import org.example.projetjavafinal.dao.ReservationDAO;
-import org.example.projetjavafinal.model.Reservation;
 import org.example.projetjavafinal.model.Client;
-import org.example.projetjavafinal.model.Vehicule;
+import org.example.projetjavafinal.model.Reservation;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ReservationService {
+public class ReservationService implements Observable {
     private final ReservationDAO reservationDAO;
-    private final VehiculeService vehiculeService;
-    private final ClientService clientService;
+    private final List<Observer> observers = new ArrayList<>();
 
     public ReservationService() {
-        this.reservationDAO = new ReservationDAO();
-        this.vehiculeService = new VehiculeService();
-        this.clientService = new ClientService();
-    }
-
-    public Reservation creerReservation(Reservation reservation) {
-        // Vérifier la disponibilité du véhicule
-        if (!verifierDisponibiliteVehicule(
-                reservation.getVehicule().getId(), 
-                reservation.getDateDebut(), 
-                reservation.getDateFin())) {
-            throw new IllegalStateException("Le véhicule n'est pas disponible pour ces dates");
-        }
-
-        // Mettre à jour le statut du véhicule
-        Vehicule vehicule = reservation.getVehicule();
-        vehicule.setDisponible(false);
-        vehiculeService.mettreAJourVehicule(vehicule);
-
-        // Sauvegarder la réservation
-        return reservationDAO.save(reservation);
-    }
-
-    public void annulerReservation(Long reservationId) {
-        Optional<Reservation> reservationOpt = reservationDAO.findById(reservationId);
-        if (reservationOpt.isPresent()) {
-            Reservation reservation = reservationOpt.get();
-            reservation.setStatut(Reservation.StatutReservation.ANNULEE);
-            
-            // Rendre le véhicule disponible
-            Vehicule vehicule = reservation.getVehicule();
-            vehicule.setDisponible(true);
-            vehiculeService.mettreAJourVehicule(vehicule);
-            
-            reservationDAO.update(reservation);
-        }
-    }
-
-    public List<Reservation> trouverReservationsClient(Client client) {
-        return reservationDAO.findByClient(client);
+        this.reservationDAO = (ReservationDAO) DAOFactory.getDAO(Reservation.class);
     }
 
     public List<Reservation> trouverReservationsActives() {
         return reservationDAO.findActiveReservations();
     }
 
-    private boolean verifierDisponibiliteVehicule(Long vehiculeId, LocalDateTime debut, LocalDateTime fin) {
-        List<Reservation> reservationsExistantes = reservationDAO.findByDateRange(debut, fin);
-        return reservationsExistantes.stream()
-                .noneMatch(r -> r.getVehicule().getId().equals(vehiculeId) &&
-                        r.getStatut() != Reservation.StatutReservation.ANNULEE);
+    public List<Reservation> trouverReservationsClient(Client client) {
+        return reservationDAO.findByClient(client);
     }
 
-    public void terminerReservation(Long reservationId) {
-        Optional<Reservation> reservationOpt = reservationDAO.findById(reservationId);
-        if (reservationOpt.isPresent()) {
-            Reservation reservation = reservationOpt.get();
-            reservation.setStatut(Reservation.StatutReservation.TERMINEE);
-            
-            // Mettre à jour les points de fidélité du client
-            Client client = reservation.getClient();
-            clientService.ajouterPointsFidelite(client.getId(), calculateFidelityPoints(reservation));
-            
-            // Rendre le véhicule disponible
-            Vehicule vehicule = reservation.getVehicule();
-            vehicule.setDisponible(true);
-            vehiculeService.mettreAJourVehicule(vehicule);
-            
-            reservationDAO.update(reservation);
+    @Override
+    public void addObserver(Observer observer) {
+        if (!observers.contains(observer)) {
+            observers.add(observer);
         }
     }
 
-    private Integer calculateFidelityPoints(Reservation reservation) {
-        // Logique simple : 1 point par jour de location
-        long nombreJours = java.time.Duration.between(
-            reservation.getDateDebut(), 
-            reservation.getDateFin()
-        ).toDays();
-        return Math.max(1, (int) nombreJours);
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(String type, Object data) {
+        for (Observer observer : observers) {
+            observer.update(type, data);
+        }
+    }
+
+    public Reservation creerReservation(Reservation reservation) {
+        Reservation nouvelleReservation = reservationDAO.save(reservation);
+        notifyObservers("RESERVATION_UPDATED", trouverReservationsActives());
+        return nouvelleReservation;
+    }
+
+    public void annulerReservation(Long reservationId) {
+        Optional<Reservation> reservation = reservationDAO.findById(reservationId);
+        reservation.ifPresent(r -> {
+            r.setStatut(Reservation.StatutReservation.ANNULEE);
+            reservationDAO.update(r);
+            notifyObservers("RESERVATION_UPDATED", trouverReservationsActives());
+        });
     }
 }

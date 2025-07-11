@@ -2,6 +2,7 @@ package org.example.projetjavafinal.service;
 
 import org.example.projetjavafinal.Observable;
 import org.example.projetjavafinal.Observer;
+import org.example.projetjavafinal.dao.DAOFactory;
 import org.example.projetjavafinal.dao.VehiculeDAO;
 import org.example.projetjavafinal.model.Vehicule;
 
@@ -13,12 +14,22 @@ public class VehiculeService implements Observable {
     private final List<Observer> observers = new ArrayList<>();
 
     public VehiculeService(VehiculeDAO vehiculeDAO) {
-        this.vehiculeDAO = vehiculeDAO;
+        this.vehiculeDAO = (VehiculeDAO) DAOFactory.getDAO(Vehicule.class);
+    }
+
+    public List<Vehicule> trouverVehiculesDisponibles() {
+        return vehiculeDAO.findByDisponible(true);
+    }
+
+    public List<Vehicule> trouverVehiculeParCategorie(Vehicule.Categorie categorie) {
+        return vehiculeDAO.findByCategorie(categorie);
     }
 
     @Override
     public void addObserver(Observer observer) {
-        observers.add(observer);
+        if (!observers.contains(observer)) {
+            observers.add(observer);
+        }
     }
 
     @Override
@@ -27,26 +38,28 @@ public class VehiculeService implements Observable {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers(String type, Object data) {
         for (Observer observer : observers) {
-            observer.update();
+            observer.update(type, data);
         }
     }
 
-    // Modification des méthodes existantes pour notifier les observateurs
-    public Vehicule ajouterVehicule(Vehicule vehicule) {
-        Vehicule result = vehiculeDAO.save(vehicule);
-        notifyObservers();
-        return result;
+    public void ajouterVehicule(Vehicule vehicule) {
+        vehiculeDAO.save(vehicule);
+        notifyObservers("VEHICULE_LIST_UPDATED", trouverTousLesVehicules());
     }
 
-    public void mettreAJourVehicule(Vehicule vehicule) {
+    public void modifierVehicule(Vehicule vehicule) {
         vehiculeDAO.update(vehicule);
-        notifyObservers();
+        notifyObservers("VEHICULE_LIST_UPDATED", trouverTousLesVehicules());
     }
 
     public void supprimerVehicule(Long id) {
         vehiculeDAO.deleteById(id);
-        notifyObservers();
+        notifyObservers("VEHICULE_LIST_UPDATED", trouverTousLesVehicules());
+    }
+
+    public List<Vehicule> trouverTousLesVehicules() {
+        return vehiculeDAO.findAll();
     }
 }

@@ -1,9 +1,11 @@
 package org.example.projetjavafinal.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "clients")
 public class Client {
@@ -23,4 +25,13 @@ public class Client {
     @OneToOne
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
+
+    // Getters and Setters explicites si nécessaire
+    public Integer getPointsFidelite() {
+        return pointsFidelite != null ? pointsFidelite : 0;
+    }
+
+    public void setPointsFidelite(Integer pointsFidelite) {
+        this.pointsFidelite = pointsFidelite;
+    }
 }

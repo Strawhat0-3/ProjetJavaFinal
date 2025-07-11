@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="org:example:projetjavafinal:hibernate.cfg.xml/Hibernate" uuid="abb2e2b9-bcdd-4d48-8ffc-38c0aab9e7c2">
+    <data-source source="LOCAL" name="dbprojet@localhost" uuid="a89c5fa7-844d-4cc5-aba9-16c510023f1f">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>Hibernate
-
-/Users/macbook/MonMemoire/ProjetJavaFinal/src/main/resources/org/example/projetjavafinal/hibernate.cfg.xml</remarks>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/location_voitures?createDatabaseIfNotExist=true</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/dbprojet</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
+        <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Deployment" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>

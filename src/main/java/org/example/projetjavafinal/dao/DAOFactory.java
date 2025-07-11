@@ -1,7 +1,11 @@
 
-package org.example.projetjavafinal.factory;
+package org.example.projetjavafinal.dao;
 
 import org.example.projetjavafinal.dao.*;
+import org.example.projetjavafinal.model.Chauffeur;
+import org.example.projetjavafinal.model.Client;
+import org.example.projetjavafinal.model.Reservation;
+import org.example.projetjavafinal.model.Vehicule;
 
 public class DAOFactory {
     

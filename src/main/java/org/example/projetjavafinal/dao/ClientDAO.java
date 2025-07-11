@@ -4,7 +4,6 @@ import org.example.projetjavafinal.model.Client;
 import org.hibernate.Session;
 import java.util.Optional;
 
-import static org.example.projetjavafinal.util.HibernateUtil.getSessionFactory;
 
 public class ClientDAO extends GenericDAOImpl<Client> {
     

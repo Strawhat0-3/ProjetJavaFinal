@@ -4,6 +4,8 @@ import org.example.projetjavafinal.Observer;
 import javafx.scene.control.TableView;
 import org.example.projetjavafinal.model.Reservation;
 
+import java.util.List;
+
 public class ReservationObserver implements Observer {
     private final TableView<Reservation> tableView;
 
