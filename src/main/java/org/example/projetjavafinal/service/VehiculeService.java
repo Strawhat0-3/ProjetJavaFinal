@@ -13,8 +13,14 @@ public class VehiculeService implements Observable {
     private final VehiculeDAO vehiculeDAO;
     private final List<Observer> observers = new ArrayList<>();
 
-    public VehiculeService(VehiculeDAO vehiculeDAO) {
+    // CORRECTION : Constructeur sans paramètre utilisant DAOFactory
+    public VehiculeService() {
         this.vehiculeDAO = (VehiculeDAO) DAOFactory.getDAO(Vehicule.class);
+    }
+
+    // CORRECTION : Constructeur avec paramètre utilisant le DAO fourni
+    public VehiculeService(VehiculeDAO vehiculeDAO) {
+        this.vehiculeDAO = vehiculeDAO;
     }
 
     public List<Vehicule> trouverVehiculesDisponibles() {

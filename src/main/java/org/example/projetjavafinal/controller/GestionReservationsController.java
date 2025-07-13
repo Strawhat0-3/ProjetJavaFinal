@@ -1,5 +1,6 @@
 package org.example.projetjavafinal.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
@@ -122,7 +123,7 @@ public class GestionReservationsController implements Observer {
         Reservation reservation = new Reservation();
         reservation.setClient(client);
         reservation.setVehicule(vehicule);
-        reservation.setChauffeur(chauffeur);
+      //  reservation.setChauffeur(chauffeur);
         
         LocalDateTime dateDebut = dateDebutPicker.getValue().atTime(heureDebutSpinner.getValue(), 0);
         LocalDateTime dateFin = dateFinPicker.getValue().atTime(heureFinSpinner.getValue(), 0);
@@ -214,4 +215,40 @@ public class GestionReservationsController implements Observer {
         reservationTable.setItems(FXCollections.observableArrayList(reservations));
     }
 
+    @FXML
+    private void handleAnnulerReservation(ActionEvent actionEvent) {
+        // Get the selected reservation from the table
+        Reservation selectedReservation = reservationTable.getSelectionModel().getSelectedItem();
+
+        if (selectedReservation == null) {
+            afficherErreur("Aucune sélection", "Veuillez sélectionner une réservation à annuler");
+            return;
+        }
+
+        // Confirm cancellation
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirmer l'annulation");
+        confirmation.setHeaderText(null);
+        confirmation.setContentText("Êtes-vous sûr de vouloir annuler cette réservation ?");
+
+        confirmation.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    // Update reservation status to cancelled
+                    selectedReservation.setStatut(Reservation.StatutReservation.ANNULEE);
+                   // reservationService.mettreAJourReservation(selectedReservation);
+
+                    // Show success message
+                    Alert success = new Alert(Alert.AlertType.INFORMATION);
+                    success.setTitle("Réservation annulée");
+                    success.setHeaderText(null);
+                    success.setContentText("La réservation a été annulée avec succès");
+                    success.showAndWait();
+
+                } catch (Exception e) {
+                    afficherErreur("Erreur", "Impossible d'annuler la réservation : " + e.getMessage());
+                }
+            }
+        });
+    }
 }

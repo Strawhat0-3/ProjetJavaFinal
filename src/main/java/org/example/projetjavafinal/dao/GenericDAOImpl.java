@@ -13,8 +13,9 @@ import java.util.Optional;
 public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
     private final Class<T> entityClass;
 
+    // CORRECTION : Appel direct à la méthode statique
     protected SessionFactory getSessionFactory() {
-        return HibernateUtil.getInstance().getSessionFactory();
+        return HibernateUtil.getSessionFactory();
     }
 
     @SuppressWarnings("unchecked")

@@ -20,9 +20,9 @@ public class Reservation {
     @JoinColumn(name = "vehicule_id", nullable = false)
     private Vehicule vehicule;
 
-    @ManyToOne
-    @JoinColumn(name = "chauffeur_id")
-    private Chauffeur chauffeur;
+//    @ManyToOne
+//    @JoinColumn(name = "chauffeur_id")
+//    private Chauffeur chauffeur;
 
     @Column(name = "date_debut", nullable = false)
     private LocalDateTime dateDebut;
