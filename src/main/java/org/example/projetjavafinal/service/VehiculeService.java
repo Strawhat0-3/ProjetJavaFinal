@@ -6,6 +6,7 @@ import org.example.projetjavafinal.dao.DAOFactory;
 import org.example.projetjavafinal.dao.VehiculeDAO;
 import org.example.projetjavafinal.model.Vehicule;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,16 @@ public class VehiculeService implements Observable {
 
     public List<Vehicule> trouverVehiculeParCategorie(Vehicule.Categorie categorie) {
         return vehiculeDAO.findByCategorie(categorie);
+    }
+
+    public boolean estDisponible(Vehicule vehicule, LocalDateTime debut, LocalDateTime fin) {
+        // Verify vehicle exists and is marked as available
+        if (vehicule == null || !vehicule.getDisponible()) {
+            return false;
+        }
+
+        // Check for reservation conflicts
+        return vehiculeDAO.estDisponible(vehicule.getId(), debut, fin);
     }
 
     @Override

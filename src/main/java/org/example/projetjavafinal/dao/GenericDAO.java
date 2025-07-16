@@ -1,5 +1,7 @@
 package org.example.projetjavafinal.dao;
 
+import org.example.projetjavafinal.model.Reservation;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -9,5 +11,5 @@ public interface GenericDAO<T> {
     List<T> findAll();
     void delete(T entity);
     void deleteById(Long id);
-    void update(T entity);
+    Reservation update(T entity);
 }

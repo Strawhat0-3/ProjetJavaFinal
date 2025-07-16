@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.projetjavafinal.service.AuthentificationService;
 import org.example.projetjavafinal.util.HibernateUtil;
 
 public class MainController extends Application {
@@ -13,28 +12,26 @@ public class MainController extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-
         // Initialiser Hibernate au démarrage
         try {
             HibernateUtil.getSessionFactory();
             System.out.println("✅ Application démarrée avec succès!");
-
-            // Créer un utilisateur de test si nécessaire
-            var authService = new AuthentificationService();
-            authService.creerUtilisateurTest();
-
         } catch (Exception e) {
             System.err.println("❌ Erreur lors de l'initialisation de l'application: " + e.getMessage());
             e.printStackTrace();
         }
-
         afficherLogin();
+    }
+
+    // Ajouter cette méthode pour permettre la réutilisation
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
     public void afficherLogin() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavafinal/view/LoginView.fxml"));
-            Scene scene = new Scene(loader.load(), 400, 300);
+            Scene scene = new Scene(loader.load(), 700, 600);
             primaryStage.setTitle("Location de Voitures - Connexion");
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -47,6 +44,7 @@ public class MainController extends Application {
         }
     }
 
+    // Reste du code inchangé...
     public void afficherGestionVehicules() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavafinal/view/GestionVehiculeView.fxml"));
@@ -90,7 +88,5 @@ public class MainController extends Application {
         super.stop();
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) {launch(args);}
 }

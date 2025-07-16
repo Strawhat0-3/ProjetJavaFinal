@@ -10,6 +10,14 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
+    <!-- Header avec bouton déconnexion -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Gestion des Réservations" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Déconnexion" onAction="#handleDeconnexion"
+                style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 8 15;"/>
+    </HBox>
+
     <HBox spacing="10">
         <VBox spacing="5" minWidth="300">
             <Label text="Nouvelle Réservation" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
@@ -36,8 +44,11 @@
             </HBox>
 
             <HBox spacing="10" alignment="CENTER_RIGHT">
-                <Button text="Créer" onAction="#handleCreerReservation"
-                        style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                <Button fx:id="creerButton" text="Créer" onAction="#handleCreerReservation"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 8 15;"/>
+                <Button fx:id="annulerModificationButton" text="Annuler" onAction="#handleAnnulerModification"
+                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 8 15;"
+                        visible="false"/>
             </HBox>
         </VBox>
 
@@ -50,8 +61,17 @@
                 </columnResizePolicy>
             </TableView>
 
-            <Button text="Annuler la réservation sélectionnée" onAction="#handleAnnulerReservation"
-                    style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+            <!-- Boutons d'action pour les réservations -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button fx:id="modifierButton" text="Modifier la réservation" onAction="#handleModifierReservation"
+                        style="-fx-background-color: #ffc107; -fx-text-fill: #212529; -fx-background-radius: 5px; -fx-padding: 8 15;"/>
+
+                <Button fx:id="supprimerButton" text="Supprimer la réservation" onAction="#handleSupprimerReservation"
+                        style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 8 15;"/>
+
+                <Button text="Annuler la réservation" onAction="#handleAnnulerReservation"
+                        style="-fx-background-color: #fd7e14; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 8 15;"/>
+            </HBox>
         </VBox>
     </HBox>
 </VBox>

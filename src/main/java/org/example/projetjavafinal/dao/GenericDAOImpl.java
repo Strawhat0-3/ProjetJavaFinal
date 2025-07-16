@@ -1,6 +1,6 @@
 package org.example.projetjavafinal.dao;
 
-import org.example.projetjavafinal.dao.GenericDAO;
+import org.example.projetjavafinal.model.Reservation;
 import org.example.projetjavafinal.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -79,8 +79,9 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
     }
 
     @Override
-    public void update(T entity) {
+    public Reservation update(T entity) {
         executeInTransactionWithoutResult(session -> session.merge(entity));
+        return null;
     }
 
     @FunctionalInterface

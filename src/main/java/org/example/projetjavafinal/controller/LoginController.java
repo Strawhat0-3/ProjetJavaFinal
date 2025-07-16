@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.example.projetjavafinal.model.Client;
 import org.example.projetjavafinal.service.AuthentificationService;
 import org.example.projetjavafinal.model.Utilisateur;
 import org.example.projetjavafinal.service.ClientService;
@@ -91,6 +93,48 @@ public class LoginController {
         }
     }
 
+    // Gestionnaire d'événements manquant - ajouté pour résoudre l'erreur FXML
+    @FXML
+    private void onFieldEnter(MouseEvent event) {
+        System.out.println("🖱️ Souris entrée dans le champ");
+        // Vous pouvez ajouter ici du code pour changer l'apparence du champ
+        // Par exemple, changer la couleur de fond ou ajouter un effet visuel
+    }
+
+    // Gestionnaire optionnel pour quand la souris quitte le champ
+    @FXML
+    private void onFieldExit(MouseEvent event) {
+        System.out.println("🖱️ Souris sortie du champ");
+        // Code pour restaurer l'apparence normale du champ
+    }
+
+    // Gestionnaire d'événements pour les boutons - ajouté pour résoudre l'erreur FXML ligne 50
+    @FXML
+    private void onButtonEnter(MouseEvent event) {
+        System.out.println("🖱️ Souris entrée sur le bouton");
+        // Vous pouvez ajouter ici du code pour changer l'apparence du bouton
+        // Par exemple, changer la couleur de fond ou ajouter un effet visuel
+    }
+
+    // Gestionnaire optionnel pour quand la souris quitte le bouton
+    @FXML
+    private void onButtonExit(MouseEvent event) {
+        System.out.println("🖱️ Souris sortie du bouton");
+        // Code pour restaurer l'apparence normale du bouton
+    }
+
+    // Gestionnaire d'événements pour l'aide - ajouté pour résoudre l'erreur FXML ligne 58
+    @FXML
+    private void handleHelp(MouseEvent event) {
+        System.out.println("ℹ️ Bouton d'aide cliqué");
+        afficherInformation("Aide",
+                "Instructions de connexion:\n\n" +
+                        "• Saisissez votre nom d'utilisateur\n" +
+                        "• Saisissez votre mot de passe\n" +
+                        "• Cliquez sur 'Se connecter'\n\n" +
+                        "En cas de problème, contactez l'administrateur.");
+    }
+
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
         System.out.println("✅ MainController configuré dans LoginController");
@@ -123,21 +167,27 @@ public class LoginController {
             Object controllerObj = loader.getController();
             if (controllerObj instanceof DashboardClientController) {
                 DashboardClientController controller = (DashboardClientController) controllerObj;
-                System.out.println("🔍 Recherche du client avec ID: " + utilisateur.getId());
+                System.out.println("🔍 Recherche du client avec ID utilisateur: " + utilisateur.getId());
 
-                clientService.trouverClientParId(utilisateur.getId())
-                        .ifPresentOrElse(
-                                client -> {
-                                    controller.setClientConnecte(client);
-                                    System.out.println("✅ Client configuré: " + client.getNom() );
-                                },
-                                () -> {
-                                    System.err.println("⚠️ Aucun client trouvé avec l'ID: " + utilisateur.getId());
-                                    afficherErreur("Attention", "Profil client non trouvé");
-                                }
-                        );
+                try {
+                    Client client = clientService.trouverClientParUtilisateur(utilisateur);
+                    if (client != null) {
+                        controller.setClientConnecte(client);
+                        System.out.println("✅ Client configuré: " + utilisateur.getNom());
+                    } else {
+                        System.err.println("⚠️ Aucun client trouvé pour l'utilisateur: " + utilisateur.getId());
+                        afficherErreur("Attention", "Profil client non trouvé");
+                        return;
+                    }
+                } catch (Exception e) {
+                    System.err.println("❌ Erreur lors de la récupération du client: " + e.getMessage());
+                    afficherErreur("Erreur", "Impossible de charger le profil client");
+                    return;
+                }
             } else {
                 System.err.println("❌ Contrôleur du dashboard client non trouvé");
+                afficherErreur("Erreur", "Erreur de configuration du contrôleur");
+                return;
             }
 
             Stage stage = (Stage) loginField.getScene().getWindow();

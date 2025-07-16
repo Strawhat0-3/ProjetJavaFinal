@@ -103,44 +103,4 @@ public class AuthentificationService {
         }
     }
 
-    // Méthode utilitaire pour créer un utilisateur de test
-    public void creerUtilisateurTest() {
-        System.out.println("🔧 [AuthService] Création d'un utilisateur de test...");
-
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-
-            // Vérifier si l'utilisateur admin existe déjà
-            Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE login = :login", Utilisateur.class);
-            query.setParameter("login", "admin");
-
-            if (query.uniqueResult() == null) {
-                // Créer un utilisateur admin de test
-                Utilisateur admin = new Utilisateur();
-                admin.setLogin("admin");
-                admin.setMotDePasse("admin"); // Mot de passe simple pour les tests
-                admin.setRole(Utilisateur.Role.ADMIN);
-
-                session.persist(admin);
-                session.getTransaction().commit();
-
-                System.out.println("✅ [AuthService] Utilisateur admin créé (login: admin, password: admin)");
-            } else {
-                System.out.println("ℹ️ [AuthService] Utilisateur admin existe déjà");
-            }
-
-        } catch (Exception e) {
-            if (session != null && session.getTransaction().isActive()) {
-                session.getTransaction().rollback();
-            }
-            System.err.println("❌ [AuthService] Erreur lors de la création de l'utilisateur test: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
 }

@@ -2,6 +2,7 @@ package org.example.projetjavafinal.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.math.BigDecimal;
 
 @Data
 @Entity
@@ -18,7 +19,7 @@ public class Vehicule {
     private String modele;
 
     @Column(nullable = false)
-    private Double tarifJournalier;
+    private BigDecimal tarifJournalier;  // Changed from Double to BigDecimal
 
     @Column(nullable = false)
     private Boolean disponible = true;
